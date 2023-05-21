@@ -2,6 +2,7 @@ package handler
 
 import (
 	"log"
+	// "fmt"
 	"encoding/json"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -15,7 +16,7 @@ type Handler struct {
 }
 
 func NewHandler(tgBot tgbotapi.BotAPI) *Handler {
-  return &Handler{TgBot: tgBot}
+	return &Handler{TgBot: tgBot}
 }
 
 func (h Handler) Handle(m *nats.Msg) {
@@ -30,9 +31,12 @@ func (h Handler) Handle(m *nats.Msg) {
 
 	mReply := tgbotapi.NewMessage(r.Chat, r.Text)
 	mReply.ReplyToMessageID = r.ReplyTo
+	mReply.ParseMode = tgbotapi.ModeMarkdownV2
+	mReply.Text = fmtTelegram(mReply.Text)
 
 	_, err = h.TgBot.Send(mReply)
 	if err != nil {
 		log.Printf("could not send message %s", mReply)
+		log.Printf(err.Error())
 	}
 }
