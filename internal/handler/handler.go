@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"log"
 	"encoding/json"
 
@@ -28,8 +27,6 @@ func (h Handler) Handle(m *nats.Msg) {
 	if err != nil {
 		log.Printf("could not decode message data %s", string(m.Data))
 	}
-
-	// fmt.Println(r)
 
 	mReply := tgbotapi.NewMessage(r.Chat, r.Text)
 	mReply.ReplyToMessageID = r.ReplyTo
