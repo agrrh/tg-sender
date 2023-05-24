@@ -32,6 +32,7 @@ func (h Handler) Handle(m *nats.Msg) {
 	mReply := tgbotapi.NewMessage(r.Chat, r.Text)
 	mReply.ReplyToMessageID = r.ReplyTo
 	mReply.ParseMode = tgbotapi.ModeMarkdownV2
+	mReply.DisableWebPagePreview = true
 	mReply.Text = fmtTelegram(mReply.Text)
 
 	_, err = h.TgBot.Send(mReply)
